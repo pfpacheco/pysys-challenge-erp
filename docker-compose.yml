@@ -1,0 +1,64 @@
+version: "3.3"
+
+services:
+
+        postgres:
+                container_name: "postgres"
+                image: "postgres:12.1"
+                ports:
+                        - "5432:5432"
+                environment:
+                        POSTGRES_DB: pysysdb
+                        POSTGRES_USER: admin
+                        POSTGRES_PASSWORD: admin123
+                volumes:
+                        - postgres_vol:/var/lib/postgres/data
+
+        redis:
+                container_name: "redis"
+                image: "redis:5.0.7"
+                ports:
+                        - "6379:6379"
+                volumes:
+                        - redis_vol:/var/lib/redis/data
+
+        mongo:
+                container_name: "mongo"
+                image: "mongo"
+                ports:
+                        - "27017:27017"
+                environment:
+                        MONGO_INITDB_ROOT_USERNAME: root
+                        MONGO_INITDB_ROOT_PASSWORD: root123
+                volumes:
+                        - redis_vol:/var/lib/redis/data
+
+        nginx:
+                container_name: "nginx"
+                build: "./docks/nginx"
+                ports:
+                        - "8000:80"
+
+        pysys-challenge-web:
+                container_name: "pysys-challenge-web"
+                build: "./pysys-challenge-web"
+                command: "npm run serve"
+                ports:
+                        - "8080:8080"
+                depends_on:
+                        - "nginx"
+
+        pysys-challenge-app:
+                container_name: "pysys-challenge-app"
+                build: "./pysys-challenge-app"
+                command: "python -m flask run -h 0.0.0.0 -p 5000"
+                ports:
+                        - "5000:5000"
+                depends_on:
+                        - postgres
+                        - redis
+                        - mongo
+                        
+volumes:
+        postgres_vol:
+        redis_vol:
