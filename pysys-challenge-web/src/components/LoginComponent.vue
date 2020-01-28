@@ -28,7 +28,7 @@
               </p>
               <p class="change_link">
                 Not a member yet ?
-                <a v-bind:href="registration" class="to_register">Join us</a>
+                <a href="#registration" class="to_register">Join us</a>
               </p>
             </form>
           </div>

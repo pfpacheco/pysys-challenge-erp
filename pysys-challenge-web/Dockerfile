@@ -78,11 +78,10 @@ COPY . /opt/pysys-challenge-web
 # Define the workdir
 WORKDIR /opt/pysys-challenge-web
 
-CMD [ "npm", "install" ]
+RUN npm install
 
-CMD [ "npm", "fix", "audit", "--force" ]
+RUN npm fix audit --force
 
-CMD [ "node" ]
+RUN node
 
 EXPOSE 8080
-

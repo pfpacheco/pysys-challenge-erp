@@ -33,7 +33,7 @@
             </p>
             <p class="change_link">
               Already a member ?
-              <a v-bind:href="login" class="to_register">Join us</a>
+              <a href="#login" class="to_register">Join us</a>
             </p>
           </form>
         </div>
