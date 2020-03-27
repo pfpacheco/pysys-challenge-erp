@@ -80,7 +80,7 @@ WORKDIR /opt/pysys-challenge-web
 
 RUN npm install
 
-RUN npm fix audit --force
+RUN npm audit fix --force
 
 RUN node
 
