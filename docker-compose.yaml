@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3"
 
 services:
 
@@ -24,14 +24,14 @@ services:
 
   mongo:
     container_name: "mongo"
-    image: "mongo"
+    image: "mongo:4.0.12"
     ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root123
     volumes:
-      - redis_vol:/var/lib/redis/data
+      - mongo_vol:/var/lib/redis/data
 
   nginx:
     container_name: "nginx"
@@ -51,9 +51,9 @@ services:
   pysys-challenge-app:
     container_name: "pysys-challenge-app"
     build: "./pysys-challenge-app"
-    command: "python -m flask run -h 0.0.0.0 -p 5000"
+    command: "python -m flask run --host 0.0.0.0 --port 5000"
     ports:
-      - "0.0.0.0:5000:5000"
+      - "5000:5000"
     depends_on:
       - postgres
       - redis
@@ -62,3 +62,5 @@ services:
 volumes:
   postgres_vol:
   redis_vol:
+  mongo_vol:
+

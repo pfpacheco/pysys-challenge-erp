@@ -107,4 +107,5 @@ ENV FLASK_APP src/app/pysys_app.py
 
 ENV FLASK_DEBUG 1
 
-CMD ["python3"]
+EXPOSE 5000
+
