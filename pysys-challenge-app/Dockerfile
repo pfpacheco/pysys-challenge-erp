@@ -103,9 +103,8 @@ WORKDIR /opt/pysys-challenge-app
 
 RUN pip install --no-cache-dir -r ./requirements.txt
 
-ENV FLASK_APP src/app/pysys_app.py
+ENV FLASK_APP src/app/api/services.py
 
 ENV FLASK_DEBUG 1
 
 EXPOSE 5000
-
