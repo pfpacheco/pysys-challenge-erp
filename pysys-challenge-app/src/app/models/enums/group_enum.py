@@ -3,8 +3,8 @@ from enum import Enum
 
 class GroupEnum(Enum):
 
-    ADMIN = 'ADMIN',
-    CLIENT = 'CLIENT',
+    ADMIN = 'ADMIN'
+    CLIENT = 'CLIENT'
     VENDOR = 'VENDOR'
 
     def description(self):

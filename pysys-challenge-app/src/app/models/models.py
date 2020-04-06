@@ -8,13 +8,8 @@ class Person(db.Model):
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False)
-    group = db.Column(db.Integer, nullable=False)
+    group = db.Column(db.Text, nullable=False)
     registration_date = db.Column(db.DateTime, nullable=False)
-
-    person_client_fk = db.relationship("Person", backref='client')
-    person_vendor_fk = db.relationship("Person", backref='vendor')
-    person_user_fk = db.relationship("Person", backref='user')
-    person_zip_code_fk = db.relationship("Person", backref='zip_code')
 
     def __repr__(self):
         """ The representation method of class """

@@ -17,7 +17,17 @@ RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
       *) echo "unsupported architecture"; exit 1 ;; \
     esac \
     && set -ex \
-    && apt-get update && apt-get install -y ca-certificates curl wget gnupg dirmngr xz-utils --no-install-recommends \
+    && apt-get update && apt-get install -y  \
+      ca-certificates \
+      curl \
+      wget \
+      gnupg \
+      dirmngr \
+      python \
+      python-dev \
+      python-setuptools \
+      python-pip \
+      xz-utils --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* \
     && for key in \
       94AE36675C464D64BAFA68DD7434390BDBE9B9C5 \
