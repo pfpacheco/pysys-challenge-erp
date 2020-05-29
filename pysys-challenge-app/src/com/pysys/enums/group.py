@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class GroupEnum(Enum):
+class Group(Enum):
 
     ADMIN = 'ADMIN'
     CLIENT = 'CLIENT'
