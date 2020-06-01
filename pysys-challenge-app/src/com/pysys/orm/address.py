@@ -13,10 +13,11 @@ class Address(db.Model):
     neighbor = db.Column(db.String(100), nullable=False)
     city = db.Column(db.String(100), nullable=False)
     uf = db.Column(db.String(2), nullable=False)
-    ibge_code = db.Column(db.String(7), nullable=False)
 
     zip_fk = db.Column(db.BigInteger, db.ForeignKey("zip.id"), nullable=True)
     zip = db.relationship(Zip)
+
+
 
     def __repr__(self):
         """ The representation method of class """

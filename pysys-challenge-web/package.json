@@ -1,44 +1,46 @@
 {
   "name": "pysys-challenge-web",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.0",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
+  "private": true,
   "dependencies": {
-    "bootstrap": "^4.4.1",
-    "core-js": "^3.4.4",
-    "vue": "^2.6.10",
-    "vue-router": "^3.1.5"
+    "@angular/animations": "~9.1.9",
+    "@angular/common": "~9.1.9",
+    "@angular/compiler": "~9.1.9",
+    "@angular/core": "~9.1.9",
+    "@angular/forms": "~9.1.9",
+    "@angular/platform-browser": "~9.1.9",
+    "@angular/platform-browser-dynamic": "~9.1.9",
+    "@angular/router": "~9.1.9",
+    "rxjs": "~6.5.4",
+    "tslib": "^1.10.0",
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.1.0",
-    "@vue/cli-plugin-eslint": "^4.1.0",
-    "@vue/cli-service": "^4.1.0",
-    "@vue/eslint-config-standard": "^4.0.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/standard"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+    "@angular-devkit/build-angular": "~0.901.7",
+    "@angular/cli": "~9.1.7",
+    "@angular/compiler-cli": "~9.1.9",
+    "@types/node": "^12.11.1",
+    "@types/jasmine": "~3.5.0",
+    "@types/jasminewd2": "~2.0.3",
+    "codelyzer": "^5.1.2",
+    "jasmine-core": "~3.5.0",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "~5.0.0",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage-istanbul-reporter": "~2.1.0",
+    "karma-jasmine": "~3.0.1",
+    "karma-jasmine-html-reporter": "^1.4.2",
+    "protractor": "~7.0.0",
+    "ts-node": "~8.3.0",
+    "tslint": "~6.1.0",
+    "typescript": "~3.8.3"
+  }
 }
