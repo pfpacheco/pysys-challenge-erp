@@ -1,43 +1,42 @@
-<section>
-  <div class="container">
-    <header>
-      <h1>PySys ERP Web Console</h1>
-    </header>
-    <div id="container_demo">
-      <!-- hidden anchor to stop jump http://www.css3create.com/Astuce-Empecher-le-scroll-avec-l-utilisation-de-target#wrap4  -->
-      <div id="wrapper">
-        <div id="login" class="animate form">
-          <form id="registrationForm">
-            <h1> Registro </h1>
-            <p>
-              <label for="usernamesignup" class="uname" data-icon="u">Usu&aacute;rio</label>
-              <input id="usernamesignup" name="usernamesignup" required="required" type="text"
-                     placeholder="johndoe69"/>
-            </p>
-            <p>
-              <label for="emailsignup" class="youmail" data-icon="e">E-mail</label>
-              <input id="emailsignup" name="emailsignup" required="required" type="email" placeholder="johndoe69@mail.com"/>
-            </p>
-            <p>
-              <label for="passwordsignup" class="youpasswd" data-icon="p">Password</label>
-              <input id="passwordsignup" name="passwordsignup" required="required" type="password"
-                     placeholder="eg. X8df!90EO"/>
-            </p>
-            <p>
-              <label for="passwordsignup_confirm" class="youpasswd" data-icon="p">Confirme o password</label>
-              <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password"
-                     placeholder="eg. X8df!90EO"/>
-            </p>
-            <p class="signin button">
-              <input type="submit" value="Registrar"/>
-            </p>
-            <p class="change_link">
-              J&aacute; &eacute; membro ?
-              <a [routerLink]="'/login'" class="to_register">Acessar agora</a>
-            </p>
-          </form>
-        </div>
+<div class="container">
+  <header>
+    <h1>PySys ERP Web Console</h1>
+  </header>
+  <div id="container_demo">
+    <!-- hidden anchor to stop jump http://www.css3create.com/Astuce-Empecher-le-scroll-avec-l-utilisation-de-target#wrap4  -->
+    <div id="wrapper">
+      <div id="login" class="animate form">
+        <form name="registrationForm" [formGroup]="registrationGroup" (ngSubmit)="ngOnSubmit()">
+          <h1> Registro </h1>
+          <p>
+            <label for="name" class="name" data-icon="u" > Nome </label>
+            <input id="name" name="name" formControlName="name" type="text" placeholder="eg. John Doe"/>
+          </p>
+          <p>
+            <label for="username" class="uname" data-icon="u" >Usu&aacute;rio</label>
+            <input id="username" formControlName="username" type="text" placeholder="eg. johndoe69"/>
+          </p>
+          <p>
+            <label for="email" class="youmail" data-icon="e">E-mail</label>
+            <input id="email" formControlName="email" type="email" placeholder="eg. johndoe69@mail.com"/>
+          </p>
+          <p>
+            <label for="password" class="youpasswd" data-icon="p" >Password</label>
+            <input id="password" formControlName="password" type="password" placeholder="eg. X8df!90EO"/>
+          </p>
+          <p>
+            <label for="confirm_password" class="youpasswd" data-icon="p" >Confirme o password</label>
+            <input id="confirm_password" formControlName="confirm_password" type="password" placeholder="eg. X8df!90EO"/>
+          </p>
+          <p class="signin button">
+            <input id="submit" type="submit" value="Registrar"/>
+          </p>
+          <p class="change_link">
+            J&aacute; &eacute; membro ?
+            <a [routerLink]="'/login'" class="to_register">Acessar agora</a>
+          </p>
+        </form>
       </div>
     </div>
   </div>
-</section>
+</div>
