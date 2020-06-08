@@ -26,7 +26,7 @@ export class RegistrationService {
     })
   };
 
-  public addPerson(person: Person): Observable<any> {
+  public addPerson(person: Person): Observable<{}> {
     const url = this.baseUrl + '/person/addPerson';
     const payload = { person: JSON.stringify(person)};
     const response: Observable<any> = this.httpClient.post(url, payload, this.httpOptions);
@@ -45,7 +45,5 @@ export class RegistrationService {
     }
     console.log('errorMessage: ' + errorMessage);
     return throwError(errorMessage);
-
   }
-
 }

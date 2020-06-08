@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "pysys-challenge-web"
+    }
+  },
+  "defaultProject": "pysys-challenge-web",
+  "cli": {
+    "analytics": "3d0743b2-86b3-4602-a2dd-4ca3c378b011"
+  }
 }
