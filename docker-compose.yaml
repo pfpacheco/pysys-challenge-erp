@@ -1,65 +1,30 @@
-version: "3.5"
-
 services:
-
-  postgres:
-    container_name: "postgres"
-    image: "postgres:latest"
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: erpdb
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
-    volumes:
-      - postgres_vol:/var/lib/postgres/data
-
-  redis:
-    container_name: "redis"
-    image: "redis:latest"
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_vol:/var/lib/redis/data
-
   mongo:
-    container_name: "mongo"
-    image: "mongo:latest"
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root123
-    volumes:
-      - mongo_vol:/var/lib/redis/data
-
+    container_name: mongo
+    environment: {MONGO_INITDB_ROOT_PASSWORD: root123, MONGO_INITDB_ROOT_USERNAME: root}
+    image: mongo:latest
+    ports: ['27017:27017']
+    volumes: ['mongo_vol:/var/lib/redis/data']
   nginx:
-    container_name: "nginx"
-    build: "./docks/nginx"
-    ports:
-      - "8000:80"
-
-  pysys-challenge-web:
-    container_name: "pysys-challenge-web"
-    build: "./pysys-challenge-web"
-    command: "npm run serve"
-    ports:
-      - "8080:8080"
-    depends_on:
-      - "nginx"
-
-#  pysys-challenge-app:
-#    container_name: "pysys-challenge-app"
-#    build: "./pysys-challenge-app"
-#    command: "python3 -m flask run --host=0.0.0.0 --port=5000"
-#    ports:
-#      - "5000:5000"
-#    depends_on:
-#      - postgres
-#      - redis
-#      - mongo
-
-volumes:
-  postgres_vol:
-  redis_vol:
-  mongo_vol:
+    build: ./docks/nginx
+    container_name: nginx
+    ports: ['8000:80']
+  postgres:
+    container_name: postgres
+    environment: {POSTGRES_DB: erpdb, POSTGRES_PASSWORD: admin123, POSTGRES_USER: admin}
+    image: postgres:latest
+    ports: ['5432:5432']
+    volumes: ['postgres_vol:/var/lib/postgres/data']
+  pysys-challenge-app:
+    build: ./pysys-challenge-app
+    command: python3 -m flask run --host=0.0.0.0 --port=5000
+    container_name: pysys-challenge-app
+    depends_on: [postgres, redis, mongo]
+    ports: ['5000:5000']
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports: ['6379:6379']
+    volumes: ['redis_vol:/var/lib/redis/data']
+version: '3.5'
+volumes: {mongo_vol: null, postgres_vol: null, redis_vol: null}

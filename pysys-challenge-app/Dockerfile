@@ -100,11 +100,13 @@ RUN mkdir -p /opt/pysys-challenge-app
 
 COPY . /opt/pysys-challenge-app
 
-WORKDIR /opt/pysys-challenge-app
+WORKDIR /opt/pysys-challenge-app/src
 
 RUN pip install --no-cache-dir -r ./requirements.txt
 
-ENV FLASK_APP src/app/api/services.py
+ENV FLASK_ENV development
+
+ENV FLASK_APP com/pysys/api/api.py
 
 ENV FLASK_DEBUG 1
 
