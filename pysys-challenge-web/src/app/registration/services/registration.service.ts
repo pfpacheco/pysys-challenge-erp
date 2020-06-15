@@ -15,9 +15,7 @@ export class RegistrationService {
 
   constructor(
     private httpClient: HttpClient
-  ) {
-
-  }
+  ) { }
 
   httpOptions = {
     headers: new HttpHeaders({
