@@ -102,7 +102,7 @@ COPY . /opt/pysys-challenge-app
 
 WORKDIR /opt/pysys-challenge-app/src
 
-RUN pip install --no-cache-dir -r ./requirements.txt
+RUN pip install --no-cache-dir -r ../requirements.txt
 
 ENV FLASK_ENV development
 

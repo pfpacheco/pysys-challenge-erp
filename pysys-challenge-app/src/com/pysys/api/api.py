@@ -52,13 +52,13 @@ def add_person():
             db.session.add(person_db)
             db.session.commit()
 
-            message.update({"code": 200, "status": "ok", "message": "person number %s was successful inserted" % person_db.id})
+            message.update({"code": 200, "status": "ok", "message": "person number %s was successful inserted - %s" % (person_db.id, person_db.__repr__())})
 
         else:
             message.update({"code": 500, "status": "error", "message": "Empty request is not allowed!"})
 
     except Exception as e:
-        message.update({"code": 500, "status": "error", "message": str(e)})
+        message.update({"code": 500, "status": "error", "message": "Error adding a new person"})
 
     return make_response(message)
 
