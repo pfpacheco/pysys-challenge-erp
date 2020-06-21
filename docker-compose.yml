@@ -1,0 +1,42 @@
+services:
+  mongo:
+    container_name: mongo
+    environment: {MONGO_INITDB_ROOT_PASSWORD: root123, MONGO_INITDB_ROOT_USERNAME: root}
+    image: mongo:latest
+    ports: ['27017:27017']
+    volumes: ['mongo_vol:/tmp/mongodb/data']
+  nginx:
+    build: ./docks/nginx
+    container_name: nginx
+    ports: ['8000:8000']
+  postgres:
+    container_name: postgres
+    environment: {POSTGRES_DB: erpdb, POSTGRES_PASSWORD: admin123, POSTGRES_USER: admin}
+    image: postgres:latest
+    ports: ['5432:5432']
+    volumes: ['postgres_vol:/tmp/postgres/data']
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports: ['6379:6379']
+    volumes: ['redis_vol:/tmp/redis/data']
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:latest
+    ports: ['5672:5672']
+    volumes: ['rabbitmq_vol:/tmp/rabbitmq/data']    
+  pysys-challenge-app:
+    build: ./pysys-challenge-app
+    command: python3 -m flask run --host=0.0.0.0 --port=5000
+    container_name: pysys-challenge-app
+    depends_on: [postgres, redis, mongo, rabbitmq]
+    ports: ['5000:5000']
+  pysys-challenge-web:
+    build: ./pysys-challenge-web
+    command: npm run server
+    container_name: pysys-challenge-web
+    depends_on: [nginx]
+    ports: ['4200:4200']
+
+version: '3.5'
+volumes: {mongo_vol: null, postgres_vol: null, redis_vol: null, rabbitmq_vol: null}
