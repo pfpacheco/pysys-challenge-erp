@@ -66,9 +66,6 @@ RUN set -ex \
   # smoke test
   && yarn --version
 
-COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]
-
 RUN mkdir -p /opt/pysys-challenge-web
 
 RUN chmod +x /opt/pysys-challenge-web
@@ -77,6 +74,8 @@ COPY . /opt/pysys-challenge-web
 
 WORKDIR /opt/pysys-challenge-web
 
-CMD [ "npm", "-g", "install" ]
+RUN npm install
+
+RUN npm build
 
 EXPOSE 4200

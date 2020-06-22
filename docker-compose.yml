@@ -8,7 +8,7 @@ services:
   nginx:
     build: ./docks/nginx
     container_name: nginx
-    ports: ['8000:8000']
+    ports: ['8000:80']
   postgres:
     container_name: postgres
     environment: {POSTGRES_DB: erpdb, POSTGRES_PASSWORD: admin123, POSTGRES_USER: admin}
@@ -27,13 +27,14 @@ services:
     volumes: ['rabbitmq_vol:/tmp/rabbitmq/data']    
   pysys-challenge-app:
     build: ./pysys-challenge-app
-    command: python3 -m flask run --host=0.0.0.0 --port=5000
+    #command: python3 -m flask run --host=0.0.0.0 --port=5000
+    command: gunicorn com.pysys.api.api:app -b :5000 --capture-output --enable-stdio-inheritance --log-level=debug --access-logfile=- --log-file=-
     container_name: pysys-challenge-app
     depends_on: [postgres, redis, mongo, rabbitmq]
     ports: ['5000:5000']
   pysys-challenge-web:
     build: ./pysys-challenge-web
-    command: npm run server
+    command: npm start
     container_name: pysys-challenge-web
     depends_on: [nginx]
     ports: ['4200:4200']

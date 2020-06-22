@@ -58,7 +58,7 @@ def add_person():
             message.update({"code": 500, "status": "error", "message": "Empty request is not allowed!"})
 
     except Exception as e:
-        message.update({"code": 500, "status": "error", "message": "Error adding a new person"})
+        message.update({"code": 500, "status": "error", "message": "Error adding a new person: %s" % str(e.__cause__)})
 
     return make_response(message)
 
