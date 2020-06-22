@@ -5,10 +5,6 @@ services:
     image: mongo:latest
     ports: ['27017:27017']
     volumes: ['mongo_vol:/tmp/mongodb/data']
-  nginx:
-    build: ./docks/nginx
-    container_name: nginx
-    ports: ['8000:80']
   postgres:
     container_name: postgres
     environment: {POSTGRES_DB: erpdb, POSTGRES_PASSWORD: admin123, POSTGRES_USER: admin}
@@ -36,8 +32,13 @@ services:
     build: ./pysys-challenge-web
     command: npm start
     container_name: pysys-challenge-web
-    depends_on: [nginx]
+    depends_on: [pysys-challenge-app]
     ports: ['4200:4200']
+  nginx:
+    build: ./docks/nginx
+    container_name: nginx
+    depends_on: [pysys-challenge-web]    
+    ports: ['8000:80']    
 
 version: '3.5'
 volumes: {mongo_vol: null, postgres_vol: null, redis_vol: null, rabbitmq_vol: null}
