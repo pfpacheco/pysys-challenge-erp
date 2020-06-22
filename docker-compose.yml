@@ -23,7 +23,6 @@ services:
     volumes: ['rabbitmq_vol:/tmp/rabbitmq/data']    
   pysys-challenge-app:
     build: ./pysys-challenge-app
-    #command: python3 -m flask run --host=0.0.0.0 --port=5000
     command: gunicorn com.pysys.api.api:app -b :5000 --capture-output --enable-stdio-inheritance --log-level=debug --access-logfile=- --log-file=-
     container_name: pysys-challenge-app
     depends_on: [postgres, redis, mongo, rabbitmq]
@@ -38,7 +37,7 @@ services:
     build: ./docks/nginx
     container_name: nginx
     depends_on: [pysys-challenge-web]    
-    ports: ['8000:80']    
+    ports: ['8080:80']    
 
-version: '3.5'
+version: '3'
 volumes: {mongo_vol: null, postgres_vol: null, redis_vol: null, rabbitmq_vol: null}

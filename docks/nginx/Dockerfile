@@ -9,4 +9,4 @@ RUN mkdir -p /var/www \
 
 COPY ./html /var/www/html
 
-ADD ./conf/nginx.conf /etc/nginx/
+COPY ./nginx.conf /etc/nginx/
