@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.5"
 
 services:
 
@@ -46,14 +46,14 @@ services:
       - redis
       - mongo
 
-  s:
+  pysys-challenge-web:
     container_name: 'pysys-challenge-web'
     build: './pysys-challenge-web'
     command: 'npm start'
     ports:
       - '4200:4200'
     depends_on:
-      - pysys-challenge-app
+      - zedelivery-app
 
   nginx:
     container_name: 'nginx'
