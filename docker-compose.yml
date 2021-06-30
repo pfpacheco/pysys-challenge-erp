@@ -1,43 +1,110 @@
-services:
-  mongo:
-    container_name: mongo
-    environment: {MONGO_INITDB_ROOT_PASSWORD: root123, MONGO_INITDB_ROOT_USERNAME: root}
-    image: mongo:latest
-    ports: ['27017:27017']
-    volumes: ['mongo_vol:/tmp/mongodb/data']
-  postgres:
-    container_name: postgres
-    environment: {POSTGRES_DB: erpdb, POSTGRES_PASSWORD: admin123, POSTGRES_USER: admin}
-    image: postgres:latest
-    ports: ['5432:5432']
-    volumes: ['postgres_vol:/tmp/postgres/data']
-  redis:
-    container_name: redis
-    image: redis:latest
-    ports: ['6379:6379']
-    volumes: ['redis_vol:/tmp/redis/data']
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:latest
-    ports: ['5672:5672']
-    volumes: ['rabbitmq_vol:/tmp/rabbitmq/data']    
-  pysys-challenge-app:
-    build: ./pysys-challenge-app
-    command: gunicorn com.pysys.api.api:app -b :5000 --capture-output --enable-stdio-inheritance --log-level=debug --access-logfile=- --log-file=-
-    container_name: pysys-challenge-app
-    depends_on: [postgres, redis, mongo, rabbitmq]
-    ports: ['5000:5000']
-  pysys-challenge-web:
-    build: ./pysys-challenge-web
-    command: npm start
-    container_name: pysys-challenge-web
-    depends_on: [pysys-challenge-app]
-    ports: ['4200:4200']
-  nginx:
-    build: ./docks/nginx
-    container_name: nginx
-    depends_on: [pysys-challenge-web]    
-    ports: ['8080:80']    
+version: "3.5"
 
-version: '3'
-volumes: {mongo_vol: null, postgres_vol: null, redis_vol: null, rabbitmq_vol: null}
+services:
+
+  postgres:
+    container_name: 'postgres'
+    image: 'postgres:latest'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: erpdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: vlYAKbQkwDeyxlMn
+    volumes:
+      - postgres_vol:/usr/var/postgres/data
+
+  redis:
+    container_name: 'redis'
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_vol:/usr/var/redis/data
+
+  mongo:
+    container_name: 'mongo'
+    image: 'mongo:latest'
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_DATABASE: mongodb
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: JCJjzpx5N4Q1Xt4x      
+    volumes:
+      - mongodb_vol:/usr/var/mongo/data
+
+
+  pysys-cnpj-get:
+    container_name: 'pysys-cnpj-get'
+    build: './pysys-challenge-app'
+    command: 'gunicorn com.pysys.api.cnpj.get_cnpj:get_cnpj -b :5000 --workers 2 --preload --capture-output --enable-stdio-inheritance --log-level=debug --access-logfile=- --log-file=-'
+    ports:
+      - '5000:5000'
+    depends_on:
+      - postgres
+      - redis
+      - mongo
+
+#  pysys-person-add:
+#    container_name: 'pysys-person-add'
+#    build: '.'
+#    command: 'gunicorn pysys-challenge-app.src.com.pysys.api.person.add_person:application -b :5001 --capture-output --enable-stdio-inheritance --log-level=debug --access-logfile=- --log-file=-'
+#    ports:
+#      - '5001:5001'
+#    depends_on:
+#      - postgres
+#      - redis
+#      - mongo
+
+#  pysys-person-get:
+#    container_name: 'pysys-person-get'
+#    build: '.'
+#    command: 'gunicorn pysys-challenge-app.src.com.pysys.api.person.get_person:application -b :5002 --capture-output --enable-stdio-inheritance --log-level=debug --access-logfile=- --log-file=-'
+#    ports:
+#      - '5002:5002'
+#    depends_on:
+#      - postgres
+#      - redis
+#      - mongo
+
+#  pysys-person-delete:
+#    container_name: 'pysys-person-delete'
+#    build: '.'
+#    command: 'gunicorn pysys-challenge-app.src.com.pysys.api.person.delete_person:application -b :5003 --capture-output --enable-stdio-inheritance --log-level=debug --access-logfile=- --log-file=-'
+#    ports:
+#      - '5003:5003'
+#    depends_on:
+#      - postgres
+#      - redis
+#      - mongo
+
+#  pysys-challenge-web:
+#    container_name: 'pysys-challenge-web'
+#    build: './pysys-challenge-web'
+#    command: 'npm start'
+#    ports:
+#      - '4200:4200'
+#    depends_on:
+#      - pysys-cnpj-get
+#      - pysys-person-add
+#      - pysys-person-get
+#      - pysys-person-delete
+
+  nginx:
+    container_name: 'nginx'
+    build: './docks/nginx'
+    ports:
+      - '8000:80'
+    depends_on:
+      - pysys-cnpj-get
+#      - pysys-challenge-web      
+#      - pysys-person-add
+#      - pysys-person-get
+#      - pysys-person-delete
+
+
+volumes:
+  postgres_vol:
+  redis_vol:
+  mongodb_vol:

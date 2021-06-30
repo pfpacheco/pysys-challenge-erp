@@ -28,7 +28,7 @@ RUN set -ex \
 	&& wget -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
 	&& wget -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc" \
 	&& export GNUPGHOME="$(mktemp -d)" \
-	&& gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY" \
+	&& gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys "$GPG_KEY" \
 	&& gpg --batch --verify python.tar.xz.asc python.tar.xz \
 	&& { command -v gpgconf > /dev/null && gpgconf --kill all || :; } \
 	&& rm -rf "$GNUPGHOME" python.tar.xz.asc \
@@ -49,15 +49,16 @@ RUN set -ex \
 		--without-ensurepip \
 	&& make -j "$(nproc)" \
 	&& make install \
-	&& ldconfig \
+	&& rm -rf /usr/src/python \
 	\
 	&& find /usr/local -depth \
 		\( \
 			\( -type d -a \( -name test -o -name tests -o -name idle_test \) \) \
-			-o \
-			\( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
+			-o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' -o -name '*.a' \) \) \
+			-o \( -type f -a -name 'wininst-*.exe' \) \
 		\) -exec rm -rf '{}' + \
-	&& rm -rf /usr/src/python \
+	\
+	&& ldconfig \
 	\
 	&& python3 --version
 
@@ -69,10 +70,10 @@ RUN cd /usr/local/bin \
 	&& ln -s python3-config python-config
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 20.1.1
+ENV PYTHON_PIP_VERSION 21.1.3
 # https://github.com/pypa/get-pip
-ENV PYTHON_GET_PIP_URL https://github.com/pypa/get-pip/raw/eff16c878c7fd6b688b9b4c4267695cf1a0bf01b/get-pip.py
-ENV PYTHON_GET_PIP_SHA256 b3153ec0cf7b7bbf9556932aa37e4981c35dc2a2c501d70d91d2795aa532be79
+ENV PYTHON_GET_PIP_URL https://github.com/pypa/get-pip/raw/a1675ab6c2bd898ed82b1f58c486097f763c74a9/public/get-pip.py
+ENV PYTHON_GET_PIP_SHA256 6665659241292b2147b58922b9ffe11dda66b39d52d8a6f3aa310bc1d60ea6f7
 
 RUN set -ex; \
 	\
@@ -106,8 +107,8 @@ RUN pip install --no-cache-dir -r ../requirements.txt
 
 ENV FLASK_ENV development
 
-ENV FLASK_APP com/pysys/api/api.py
+ENV FLASK_APP com/pysys/api/get_cnpj.py
 
 ENV FLASK_DEBUG 1
 
-EXPOSE 5000
+EXPOSE 5000 5001 5002 5003
