@@ -79,14 +79,12 @@ services:
 #      - redis
 #      - mongo
 
-#  pysys-challenge-web:
-#    container_name: 'pysys-challenge-web'
-#    build: './pysys-challenge-web'
-#    command: 'npm start'
-#    ports:
-#      - '4200:4200'
-#    depends_on:
-#      - pysys-cnpj-get
+  pysys-challenge-web:
+    container_name: 'pysys-challenge-web'
+    build: './pysys-challenge-web'
+    command: 'ng serve pysys-challenge-web --prod=false --host 0.0.0.0'
+    depends_on:
+      - pysys-cnpj-get
 #      - pysys-person-add
 #      - pysys-person-get
 #      - pysys-person-delete
@@ -98,11 +96,10 @@ services:
       - '8000:80'
     depends_on:
       - pysys-cnpj-get
-#      - pysys-challenge-web      
+      - pysys-challenge-web
 #      - pysys-person-add
 #      - pysys-person-get
 #      - pysys-person-delete
-
 
 volumes:
   postgres_vol:
